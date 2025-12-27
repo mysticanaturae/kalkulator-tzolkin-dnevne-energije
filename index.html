@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator Zavesti Dneva</title>
+<title>Kalkulator Dnevne Energije</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#3a9b8b">
 <style>
@@ -147,11 +147,23 @@ button:hover { background-color: #ffaa33; }
 }
 .premium-btn:hover { transform: scale(1.05); }
 .ritual { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 12px; margin-top: 20px; color: #fff; font-size: 14px; }
+  .ritual h4 {
+    color: #1f5f52;
+    font-family: 'Great Vibes', cursive;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+ .ritual p {
+    color: #2e6f63;
+    line-height: 1.6;
+} 
 
 /* Modal stil */
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);}
 .modal-content { background-color: #3a9b8b; color: #fff; margin: 10% auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px; text-align: center; }
 .close { float: right; font-size: 28px; cursor: pointer; }
+
+
 </style>
 </head>
 <body>
@@ -165,6 +177,31 @@ ki ne meri časa, temveč njegovo kakovost. Vsak dan nosi svojo unikatno frekven
         <p>Ko se zjutraj uskladiš z energijo dneva, ne plavaš več proti toku časa, ampak z njim sodeluješ. Dnevi niso naključni – so živi portali, ki te vsak dan učijo, zdravijo, aktivirajo ali zapirajo cikle.</p>
         <p>Z zavestnim dnevnim sledenjem energijam začneš opažati sinhronicitete, lažje sprejemaš odločitve in razumeš, zakaj se določeni občutki, izzivi ali darila pojavijo prav danes.</p>
         <p>Ta kalkulator ti pomaga, da se vsak dan spomniš: čas ni tvoj sovražnik – čas je tvoj učitelj.</p>
+   <h3>Želiš osebno razlago dneva?</h3>
+   <p>
+Ta aplikacija prikazuje <strong>kolektivno Tzolkin energijo dneva</strong> – frekvenco, ki jo ta dan deli ves planet.
+</p>
+
+      <hr style="margin: 25px 0; opacity: 0.3;">
+     
+<p>
+V premium različici pa prejmeš <strong>svoj osebni dnevni zapis</strong>:
+energijo dneva, prepleteno s tvojim rojstnim KIN-om, življenjsko nalogo in tvojimi cikli.
+</p>
+
+<p>
+To ni več splošen opis dneva – to je <em>sporočilo časa, namenjeno tebi</em>.
+</p> 
+      <p style="font-style: italic;">
+Ta aplikacija bere dan.  
+Premium branje bere tebe v dnevu.
+</p>
+      <a href="#" class="premium-btn">
+  ✨ Odkleni osebno Tzolkin razlago
+</a>
+      <p style="font-size: 0.85em; opacity: 0.7; margin-top: 8px;">
+Individualni izračun • osebni cikli • globlja razlaga
+</p>
     </div>
 
     <!-- SREDINSKI STOLPEC: KALKULATOR -->
@@ -311,7 +348,6 @@ const tzolkinSignDescriptions = [
   "Sonce / Ahau – Prebujenje in svetloba: Aktivira vitalnost, razsvetljenje in izražanje svetlobe. Dan je kot budilka za notranje prebujenje in kreativno moč."
 ];
 
-<script>
 // Modal funkcionalnost
 const modal = document.getElementById("aboutModal");
 const btn = document.getElementById("aboutBtn");
