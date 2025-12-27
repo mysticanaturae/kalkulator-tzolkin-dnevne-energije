@@ -205,6 +205,77 @@ button:hover { background-color: #ffaa33; }
   box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   transform: translateY(-2px);
 }
+/* MOBILE RESPONSIVE */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .column {
+    min-width: auto;
+    width: 100%;
+    padding: 15px;
+  }
+
+  .calculator h1 {
+    font-size: 28px;
+  }
+
+  .calculator h2 {
+    font-size: 14px;
+  }
+
+  input[type="text"], input[type="date"], input[type="email"], button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  #premiumBtn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .ritual h4 {
+    font-size: 20px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .calculator h1 {
+    font-size: 24px;
+  }
+
+  .calculator h2 {
+    font-size: 12px;
+  }
+
+  input[type="text"], input[type="date"], input[type="email"], button {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  #premiumBtn {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .ritual h4 {
+    font-size: 18px;
+  }
+
+  .modal-content {
+    width: 95%;
+    margin: 15% auto;
+    padding: 15px;
+  }
+}
 </style>
 </head>
 <body>
