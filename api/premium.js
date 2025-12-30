@@ -4,28 +4,52 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-export async function generatePremiumText({fullName, birthDate, tzolkinDay}) {
+/**
+ * Ustvari premium Tzolkin besedilo za posamezen dan
+ * @param {Object} options
+ * @param {string} options.fullName - ime uporabnika
+ * @param {string} options.birthDate - rojstni datum uporabnika
+ * @param {string} options.tzolkinDay - kolektivni Tzolkin dan dneva
+ * @returns {Promise<string>} - mistični zapis dneva
+ */
+export async function generatePremiumText({ fullName, birthDate, tzolkinDay }) {
   const prompt = `
-Ti si mistični Tzolkin vodič in astrološki svetovalec. Ustvari obsežno, premium razlago za uporabnika, ki vključuje:
-1. Kolektivno energijo dneva na osnovi Tzolkin dneva (${tzolkinDay})
-2. Dnevni ritual, ki uporabniku pomaga uskladiti zavest z energijo dneva
-3. Refleksivno vprašanje ali misel za osebno rast
-4. Subtilno povabilo k VIP opciji za izračun individualne energije na podlagi rojstnega dne (${birthDate}) in dneve Tzolkin energije ali KIN-a
-5. Mističen, poetičen in navdihujoč stil, kot bi govoril starodavni Tzolkin vodič
+Ti si starodavni varuh časa in Tzolkin vodič. 
+Piši globoko, mistično in premišljeno premium razlago DNEVA. 
+Ne uporabljaš astrologije, temveč kolektivno energijo Tzolkin dneva (${tzolkinDay}).
 
-Ime uporabnika: ${fullName}
-Datum rojstva: ${birthDate}
-Tzolkin dan: ${tzolkinDay}
+STRUKTURA:
+1. Odpri zapis kot živ portal časa, ki govori
+2. Razloži kolektivno energijo in učenje dneva
+3. Pokaži, kako se energija kaže v občutkih, mislih, dogodkih
+4. Predlagaj preprost ritual za harmonijo z energijo dneva
+5. Zaključi z refleksivnim vprašanjem ali mislijo
+6. Na koncu subtilno omeni možnost globlje osebne razlage dneva (${birthDate})
 
-Rezultat naj bo dolg vsaj 400 besed, strukturiran v odstavkih, jasen in berljiv.
+SLOG:
+- mističen, tih, sveti
+- brez floskul in prerokovanja
+- občutek, da govori čas sam
+- slovenski jezik
+- jasni odstavki, tekoče branje
+- vsaj 400 besed
+
+Uporabnik: ${fullName}
 `;
 
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      { role: "system", content: "Ti si mistični Tzolkin vodič, ki ustvarja premium astrološke razlage." },
-      { role: "user", content: prompt }
+      {
+        role: "system",
+        content: "Ti si starodavni Tzolkin varuh časa in pišeš svete dnevne zapise zavesti."
+      },
+      {
+        role: "user",
+        content: prompt
+      }
     ],
+    temperature: 0.9,
     max_tokens: 1200
   });
 

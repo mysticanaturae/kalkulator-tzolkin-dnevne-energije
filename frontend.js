@@ -1,4 +1,10 @@
 // frontend.js
+
+// GLOBALNI DNEVNI PODATKI (za premium)
+let currentKin = null;
+let currentTone = null;
+let currentSign = null;
+
 // ==================================================
 // MODAL
 // ==================================================
@@ -139,6 +145,10 @@ function calculateSoulFrequency() {
   const tone = (kin - 1) % 13;
   const sign = (kin - 1) % 20;
 
+  currentKin = kin;
+  currentTone = tone;
+  currentSign = sign;
+
   saveEmail(email, birthDate, kin, tzolkinSigns[sign]);
 
   resultDiv.innerHTML = `
@@ -171,12 +181,24 @@ export function initServiceWorker() {
 export function initPremiumButton() {
   const premiumBtn = document.getElementById("premiumBtn");
   const premiumResult = document.getElementById("premiumResult");
+
   if (!premiumBtn || !premiumResult) return;
 
-  premiumBtn.addEventListener("click", () => {
-    premiumResult.innerHTML =
-      "✨ Premium razlaga bo kmalu na voljo. Trenutno se odpira portal časa…";
-    premiumResult.classList.add("show");
+  premiumBtn.addEventListener("click", async () => {
+    premiumResult.innerHTML = "✨ Portal se odpira…";
+
+    const fullName = document.getElementById("fullName")?.value || "Dragi obiskovalec";
+    const birthDate = document.getElementById("birthDate")?.value || "01-01-2000";
+    const tzolkinDay = document.getElementById("tzolkinDay")?.textContent || "1 Krokodil";
+
+    try {
+      const text = await generatePremiumText({ fullName, birthDate, tzolkinDay });
+      premiumResult.innerHTML = text;
+      premiumResult.classList.add("show");
+    } catch (err) {
+      console.error(err);
+      premiumResult.innerHTML = "Napaka pri odpiranju portala. Poskusi kasneje.";
+    }
   });
 }
 
