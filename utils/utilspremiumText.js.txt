@@ -1,17 +1,10 @@
+// utils/premiumText.js
 import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-/**
- * Ustvari premium Tzolkin besedilo za posamezen dan
- * @param {Object} options
- * @param {string} options.fullName - ime uporabnika
- * @param {string} options.birthDate - rojstni datum uporabnika
- * @param {string} options.tzolkinDay - kolektivni Tzolkin dan dneva
- * @returns {Promise<string>} - mistični zapis dneva
- */
 export async function generatePremiumText({ fullName, birthDate, tzolkinDay }) {
   const prompt = `
 Ti si starodavni varuh časa in Tzolkin vodič. 
@@ -28,10 +21,9 @@ STRUKTURA:
 
 SLOG:
 - mističen, tih, sveti
-- brez floskul in prerokovanja
+- brez floskul
 - občutek, da govori čas sam
 - slovenski jezik
-- jasni odstavki, tekoče branje
 - vsaj 400 besed
 
 Uporabnik: ${fullName}
@@ -55,4 +47,3 @@ Uporabnik: ${fullName}
 
   return response.choices[0].message.content;
 }
-
