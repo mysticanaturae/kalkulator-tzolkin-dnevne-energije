@@ -9,11 +9,17 @@ export function initModal() {
 
   if (!modal || !btn || !span) return;
 
-  btn.onclick = () => (modal.style.display = "block");
-  span.onclick = () => (modal.style.display = "none");
-  window.onclick = (e) => {
+  btn.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  span.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
     if (e.target === modal) modal.style.display = "none";
-  };
+  });
 }
 
 // ==================================================
@@ -37,10 +43,9 @@ export async function saveEmail(email, birthDate, kin, sign) {
         body: JSON.stringify({ email, birthdate: birthDate, kin, sign })
       }
     );
-    const data = await res.json();
-    console.log("Shranjeno v Google Sheets:", data);
+    await res.json();
   } catch (err) {
-    console.error("Napaka pri shranjevanju:", err);
+    console.warn("Sheets ni dosegljiv:", err);
   }
 }
 
@@ -131,19 +136,22 @@ function calculateSoulFrequency() {
   }
 
   const kin = calculateTzolkinKin(birthDate);
-  const tone = ((kin - 1) % 13);
-  const sign = ((kin - 1) % 20);
+  const tone = (kin - 1) % 13;
+  const sign = (kin - 1) % 20;
 
   saveEmail(email, birthDate, kin, tzolkinSigns[sign]);
 
   resultDiv.innerHTML = `
-    <p class="kin-number"><strong>Kin ${kin}</strong></p>
-    <img src="${tzolkinNumberImages[tone]}">
-    <p>${tzolkinNumbers[tone]}</p>
-    <img src="${tzolkinSignImages[sign]}">
+    <p class="kin-number"><strong>KIN ${kin}</strong></p>
+    <img class="number-img" src="${tzolkinNumberImages[tone]}">
+    <p class="frequency">${tzolkinNumbers[tone]}</p>
+    <img class="sign-img" src="${tzolkinSignImages[sign]}">
     <h3>${tzolkinSigns[sign]}</h3>
     <p>${tzolkinSignDescriptions[sign]}</p>
   `;
+
+  // 🔥 KLJUČNO – prikaže rezultat
+  resultDiv.classList.add("show");
 }
 
 // ==================================================
@@ -151,48 +159,25 @@ function calculateSoulFrequency() {
 // ==================================================
 export function initServiceWorker() {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker
+      .register("./sw.js")
+      .catch(() => console.warn("SW ni registriran"));
   }
 }
 
 // ==================================================
-// PREMIUM + INSTALL APP
+// PREMIUM + INSTALL
 // ==================================================
 export function initPremiumButton() {
   const premiumBtn = document.getElementById("premiumBtn");
   const premiumResult = document.getElementById("premiumResult");
   if (!premiumBtn || !premiumResult) return;
 
-  let deferredPrompt;
-  const installBtn = document.createElement("button");
-  installBtn.id = "installBtn";
-  installBtn.textContent = "✨ Namesti aplikacijo";
-  document.body.appendChild(installBtn);
-  installBtn.style.display = "none";
-
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = "block";
+  premiumBtn.addEventListener("click", () => {
+    premiumResult.innerHTML =
+      "✨ Premium razlaga bo kmalu na voljo. Trenutno se odpira portal časa…";
+    premiumResult.classList.add("show");
   });
-
-  installBtn.onclick = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt = null;
-    installBtn.style.display = "none";
-  };
-
-  premiumBtn.onclick = async () => {
-    premiumResult.textContent = "Ustvarjam tvojo Premium razlago… 🌟";
-    const res = await fetch("/api/premium", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: "Premium Tzolkin razlaga" })
-    });
-    const data = await res.json();
-    premiumResult.innerHTML = data.text;
-  };
 }
 
 // ==================================================
