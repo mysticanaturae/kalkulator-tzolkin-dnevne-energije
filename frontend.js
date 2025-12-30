@@ -105,9 +105,6 @@ const tzolkinSignDescriptions = [
   "Sonce / Ahau – Prebujenje in svetloba: Aktivira vitalnost, razsvetljenje in izražanje svetlobe. Dan je kot budilka za notranje prebujenje in kreativno moč."
 ];
 
-const tzolkinSignDescriptions = [ /* tvoji opisi – NESPREGLEDANI */ 
-  /* (ostanejo identični kot v tvoji kodi) */
-];
 
 // ==================================================
 // TZOLKIN LOGIKA
